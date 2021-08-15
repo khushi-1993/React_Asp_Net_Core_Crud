@@ -100,14 +100,14 @@ export function TableStore(props) {
                     </Table.Header>
                     <Table.Body>
                         {
-                            stores.map((c) => (
+                            (stores && stores.map((c) => (
                                 <Table.Row key={c.Id}>
                                     <Table.Cell>{c.Name}</Table.Cell>
                                     <Table.Cell>{c.Address}</Table.Cell>
                                     <Table.Cell> <Button className="fontsize-12" color='yellow' icon onClick={() => toggleUpdateStoreModal(true, c)}><Icon name='edit' /> EDIT</Button></Table.Cell>
                                     <Table.Cell> <Button className="fontsize-12" color='red' icon onClick={() => toggleDeleteStoreModal(true, c.Id)}><Icon name='trash' /> DELETE</Button></Table.Cell>
                                 </Table.Row>
-                            ))
+                            )))
                         }
                     </Table.Body>
                 </Table>

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/desktop-dolagoc/databases/React_Asp_Net_Core_Crud_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:SqlDbContext",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

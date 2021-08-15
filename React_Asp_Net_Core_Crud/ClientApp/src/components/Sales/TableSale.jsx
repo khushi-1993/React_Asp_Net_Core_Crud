@@ -140,7 +140,7 @@ export function TableSale(props) {
                     </Table.Header>
                     <Table.Body>
                         {
-                            sales.map((s) => (
+                            (sales && sales.map((s) => (
                                 <Table.Row key={s.Id}>
                                     <Table.Cell>{s.CustomerName}</Table.Cell>
                                     <Table.Cell>{s.ProductName}</Table.Cell>
@@ -149,7 +149,7 @@ export function TableSale(props) {
                                     <Table.Cell> <Button className="fontsize-12" color='yellow' icon onClick={() => toggleUpdateSaleModal(true, s)}><Icon name='edit' /> EDIT</Button></Table.Cell>
                                     <Table.Cell> <Button className="fontsize-12" color='red' icon onClick={() => toggleDeleteSaleModal(true, s.Id)}><Icon name='trash' /> DELETE</Button></Table.Cell>
                                 </Table.Row>
-                            ))
+                            )))
                         }
                     </Table.Body>
                 </Table>

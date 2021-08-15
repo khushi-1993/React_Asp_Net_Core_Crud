@@ -100,14 +100,14 @@ export function TableProduct(props) {
                     </Table.Header>
                     <Table.Body>
                         {
-                            products.map((c) => (
+                           (products && products.map((c) => (
                                 <Table.Row key={c.Id}>
                                     <Table.Cell>{c.Name}</Table.Cell>
                                     <Table.Cell><Icon name='dollar sign' />{c.Price}</Table.Cell>
                                     <Table.Cell> <Button className="fontsize-12" color='yellow' icon onClick={() => toggleUpdateProductModal(true, c)}><Icon name='edit' /> EDIT</Button></Table.Cell>
                                     <Table.Cell> <Button className="fontsize-12" color='red' icon onClick={() => toggleDeleteProductModal(true, c.Id)}><Icon name='trash' /> DELETE</Button></Table.Cell>
                                 </Table.Row>
-                            ))
+                            )))
                         }
                     </Table.Body>
                 </Table>
