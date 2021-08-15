@@ -8,7 +8,7 @@ namespace React_Asp_Net_Core_Crud.DAL.IRepository
 {
     public interface ISalesRepository
     {
-        IEnumerable<Sales> GetAll(int offset, int limit, string sortOrder);
+        IEnumerable<SalesViewModel> GetAll(int offset, int limit, string sortOrder);
         Sales GetById(int salesID);
         int GetTotalSaleCount();
         IEnumerable<Sales> GetAlldata();

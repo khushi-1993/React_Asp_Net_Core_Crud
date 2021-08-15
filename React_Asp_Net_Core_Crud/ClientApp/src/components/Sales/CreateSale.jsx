@@ -1,48 +1,84 @@
 import axios from 'axios';
-import React, { useState,useEffect } from 'react'
-import { Button, Form, Modal,DateInput,Dropdown} from 'semantic-ui-react'
+import React, { useState, useEffect } from 'react'
+import { Button, Form, Modal, Dropdown } from 'semantic-ui-react'
 import { toast } from 'react-toastify';
 
 export function CreateSale(props) {
 
   const { open, toggleCreateSaleModal, fetchSale, pagerSetting } = props;
-  const [sale, setSale] = useState({ Name: "", Address: "" });
-  const [productOption,setProductOption] = useState(null);
+  const [sale, setSale] = useState({ DateSold: new Date().toISOString().slice(0, 10), ProductId: null,CustomerId:null,StoreId:null });
+  const [productOption, setProductOption] = useState(null);
+  const [customerOption, setCustomerOption] = useState(null);
+  const [storeOption, setStoreOption] = useState(null);
 
   useEffect((e) => {
     fetchProduct();
+    fetchCustomer();
+    fetchStore();
   }, []);
 
-  const fetchProduct = () =>
-  {
+  const fetchProduct = () => {
     axios.get('api/product/GetAll')
-    .then(response => {
-    })
-    .catch(err => {
+      .then(response => {
+        const productOptionSet = [];
+        response.data.map((e) => (
+          productOptionSet.push({ text: e.Name, value: e.Id })
+        ))
+        setProductOption(productOptionSet);
+      })
+      .catch(err => {
         toast.error(err);
-    })
+      })
   }
 
-  // const fetchCustomer = () =>
-  // {
-    
-  // }
+  const fetchCustomer = () => {
+    axios.get('api/customer/GetAll')
+      .then(response => {
+        const customerOptionSet = [];
+        response.data.map((e) => (
+          customerOptionSet.push({ text: e.Name, value: e.Id })
+        ))
+        setCustomerOption(customerOptionSet);
+      })
+      .catch(err => {
+        toast.error(err);
+      })
+  }
 
-  // const fetchStore = () =>
-  // {
-    
-  // }
+  const fetchStore = () => {
+    axios.get('api/store/GetAll')
+      .then(response => {
+        const storeOptionSet = [];
+        response.data.map((e) => (
+          storeOptionSet.push({ text: e.Name, value: e.Id })
+        ))
+        setStoreOption(storeOptionSet);
+      })
+      .catch(err => {
+        toast.error(err);
+      })
+  }
 
-  const handleChange = e => {
+  const handleChange = (e,data) => {
     e.persist();
+    setSale(prevSale => ({ ...prevSale, [data.name]: data.value }));
+  }
+
+  const handleDateChange = (e) => {
+    e.preventDefault();
     setSale(prevSale => ({ ...prevSale, [e.target.name]: e.target.value }));
   }
 
   const handleCreateSale = (e) => {
     e.preventDefault();
+    if(sale.DateSold === "" )
+    {
+      setSale(prevSale => ({ ...prevSale, DateSold: new Date().toISOString().slice(0, 10) }));
+    }
+
     axios.post('api/sales/post', sale)
       .then(response => {
-        setSale({ Name: "", Address: "" });
+        setSale({ DateSold: "", ProductId: null,CustomerId:null,StoreId:null  });
         fetchSale(pagerSetting.page, pagerSetting.pageSize, pagerSetting.sortOrder);
         toggleCreateSaleModal(false);
         toast.success('Sale Added Successfully');
@@ -66,22 +102,42 @@ export function CreateSale(props) {
         <Modal.Header>Create Sale</Modal.Header>
         <Modal.Content >
           <Form>
-            <Form.Field>
-              <label>NAME</label>
-              {/* <DateInput
-          inline
-          name='date'
-         // value={this.state.date}
-          defaultShow={true}
-          onChange={this.handleDateChange}
-        /> */}
+          <Form.Field>
+              <label>Date Sold</label>
+           <input type="date" name="DateSold" defaultValue={new Date().toISOString().slice(0, 10)} max={new Date().toISOString().slice(0, 10)} onChange={handleDateChange}/>
             </Form.Field>
             <Form.Field>
-            <Dropdown 
-          options={productOption}
-         // onChange={handleDataSizeChange}
-          defaultValue={pagerSetting.pageSize}
-        />
+              <label>Customer</label>
+              <Dropdown
+                selection
+                name="CustomerId"
+                options={customerOption}
+                placeholder='---Select Customer---'
+               onChange={handleChange}
+               required
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Product</label>
+              <Dropdown
+                selection
+                name="ProductId"
+                options={productOption}
+                placeholder='---Select Product---'
+               onChange={handleChange}
+               required
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Store</label>
+              <Dropdown
+                selection
+                name="StoreId"
+                options={storeOption}
+                placeholder='---Select Store---'
+               onChange={handleChange}
+               required
+              />
             </Form.Field>
           </Form>
         </Modal.Content>

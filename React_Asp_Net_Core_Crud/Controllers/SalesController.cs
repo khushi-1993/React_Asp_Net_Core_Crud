@@ -30,7 +30,7 @@ namespace React_Asp_Net_Core_Crud.Controllers
         public JsonResult Get(int? offset, int? limit, string sortOrder)
         {
             int totalSales = _salesRepository.GetTotalSaleCount();
-            List<Sales> sales = _salesRepository.GetAll(offset ?? 0, limit ?? 10, sortOrder).ToList();
+            List<SalesViewModel> sales = _salesRepository.GetAll(offset ?? 0, limit ?? 10, sortOrder).ToList();
 
             return new JsonResult(new { totalRecord = totalSales, data = sales });
         }

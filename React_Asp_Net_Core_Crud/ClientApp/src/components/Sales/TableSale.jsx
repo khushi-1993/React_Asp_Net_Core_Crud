@@ -3,6 +3,8 @@ import { Table, Button, Icon } from 'semantic-ui-react'
 import { UpdateSale } from './UpdateSale';
 import { DeleteSale } from './DeleteSale';
 import { Pager } from './../Pager';
+import dateFormat from 'dateformat';
+
 
 export function TableSale(props) {
     const { sales, fetchSale, pagerSetting, setPagerSettings } = props;
@@ -11,12 +13,12 @@ export function TableSale(props) {
     const [updateSaleModal, setUpdateSaleModal] = useState(false);
     const [deleteSaleModal, setDeleteSaleModal] = useState(false);
     const [saleID, setSaleID] = useState(null);
-    const [sale, setSale] = useState({ Id: "", Name: "", Address: "" });
+    const [sale, setSale] = useState({ Id: "", DateSold: new Date().toISOString().slice(0, 10), ProductId: null, CustomerId: null, StoreId: null });
 
     const toggleUpdateSaleModal = (value, cust) => {
         setUpdateSaleModal(value);
         if (cust != null) {
-            setSale({ Id: cust.Id, Name: cust.Name, Address: cust.Address });
+            setSale({ Id: cust.Id, DateSold: cust.DateSold, ProductId: cust.ProductId, CustomerId: cust.CustomerId, StoreId: cust.StoreId });
         }
     }
 
@@ -33,28 +35,54 @@ export function TableSale(props) {
         let newSortOrder = pagerSetting.sortOrder;
 
         switch (header) {
-            case 'Name': {
-                if (pagerSetting.sortOrder === 'Name') {
-                    newSortOrder = 'Name_desc';
-                    setColumn("Name_desc");
+            case 'Product_Name': {
+                if (pagerSetting.sortOrder === 'Product_Name') {
+                    newSortOrder = 'Product_Name_desc';
+                    setColumn("Product_Name_desc");
                     setDirection("descending");
                 }
                 else {
-                    newSortOrder = 'Name';
-                    setColumn("Name");
+                    newSortOrder = 'Product_Name';
+                    setColumn("Product_Name");
                     setDirection("ascending");
                 }
                 break;
             }
-            case 'Address': {
-                if (pagerSetting.sortOrder === 'Address') {
-                    newSortOrder = 'Address_desc';
-                    setColumn("Address_desc");
+            case 'Customer_Name': {
+                if (pagerSetting.sortOrder === 'Customer_Name') {
+                    newSortOrder = 'Customer_Name_desc';
+                    setColumn("Customer_Name_desc");
                     setDirection("descending");
                 }
                 else {
-                    newSortOrder = 'Address';
-                    setColumn("Address");
+                    newSortOrder = 'Customer_Name';
+                    setColumn("Customer_Name");
+                    setDirection("ascending");
+                }
+                break;
+            }
+            case 'Store_Name': {
+                if (pagerSetting.sortOrder === 'Store_Name') {
+                    newSortOrder = 'Store_Name_desc';
+                    setColumn("Store_Name_desc");
+                    setDirection("descending");
+                }
+                else {
+                    newSortOrder = 'Store_Name';
+                    setColumn("Store_Name");
+                    setDirection("ascending");
+                }
+                break;
+            }
+            case 'DateSold': {
+                if (pagerSetting.sortOrder === 'DateSold') {
+                    newSortOrder = 'DateSold_desc';
+                    setColumn("DateSold_desc");
+                    setDirection("descending");
+                }
+                else {
+                    newSortOrder = 'DateSold';
+                    setColumn("DateSold");
                     setDirection("ascending");
                 }
                 break;
@@ -79,16 +107,28 @@ export function TableSale(props) {
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell
-                              //  onClick={(e) => handleHeaderClick(e, 'Name')}
-                              //  sorted={column === 'Customer' ? direction : column === 'Name_desc' ? 'descending' : null}
+                            onClick={(e) => handleHeaderClick(e, 'Customer_Name')}
+                            sorted={column === 'Customer_Name' ? direction : column === 'Customer_Name_desc' ? 'descending' : null}
                             >
-                                Name
+                                Customer
                             </Table.HeaderCell>
                             <Table.HeaderCell
-                               //onClick={(e) => handleHeaderClick(e, 'Address')}
-                              //  sorted={column === 'Address' ? direction : column === 'Address_desc' ? 'descending' : null}
+                                 onClick={(e) => handleHeaderClick(e, 'Product_Name')}
+                                 sorted={column === 'Product_Name' ? direction : column === 'Product_Name_desc' ? 'descending' : null}
                             >
-                                Address
+                                Product
+                            </Table.HeaderCell>
+                            <Table.HeaderCell
+                                onClick={(e) => handleHeaderClick(e, 'Store_Name')}
+                                sorted={column === 'Store_Name' ? direction : column === 'Store_Name_desc' ? 'descending' : null}
+                            >
+                                Store
+                            </Table.HeaderCell>
+                            <Table.HeaderCell
+                                onClick={(e) => handleHeaderClick(e, 'DateSold')}
+                                sorted={column === 'DateSold' ? direction : column === 'DateSold_desc' ? 'descending' : null}
+                            >
+                                Date Sold
                             </Table.HeaderCell>
                             <Table.HeaderCell>
                                 Actions
@@ -100,18 +140,20 @@ export function TableSale(props) {
                     </Table.Header>
                     <Table.Body>
                         {
-                            sales.map((c) => (
-                                <Table.Row key={c.Id}>
-                                    {/* <Table.Cell>{c.}</Table.Cell>
-                                    <Table.Cell>{c.Address}</Table.Cell> */}
-                                    <Table.Cell> <Button className="fontsize-12" color='yellow' icon onClick={() => toggleUpdateSaleModal(true, c)}><Icon name='edit' /> EDIT</Button></Table.Cell>
-                                    <Table.Cell> <Button className="fontsize-12" color='red' icon onClick={() => toggleDeleteSaleModal(true, c.Id)}><Icon name='trash' /> DELETE</Button></Table.Cell>
+                            sales.map((s) => (
+                                <Table.Row key={s.Id}>
+                                    <Table.Cell>{s.CustomerName}</Table.Cell>
+                                    <Table.Cell>{s.ProductName}</Table.Cell>
+                                    <Table.Cell>{s.StoreName}</Table.Cell>
+                                    <Table.Cell>{dateFormat(s.DateSold, "dd mmm, yyyy")}</Table.Cell>
+                                    <Table.Cell> <Button className="fontsize-12" color='yellow' icon onClick={() => toggleUpdateSaleModal(true, s)}><Icon name='edit' /> EDIT</Button></Table.Cell>
+                                    <Table.Cell> <Button className="fontsize-12" color='red' icon onClick={() => toggleDeleteSaleModal(true, s.Id)}><Icon name='trash' /> DELETE</Button></Table.Cell>
                                 </Table.Row>
                             ))
                         }
                     </Table.Body>
                 </Table>
-                <UpdateSale open={updateSaleModal} toggleUpdateSaleModal={toggleUpdateSaleModal} sale={sale} fetchSale={fetchSale} pagerSetting={pagerSetting} />
+                <UpdateSale open={updateSaleModal} toggleUpdateSaleModal={toggleUpdateSaleModal} sales={sale} fetchSale={fetchSale} pagerSetting={pagerSetting} />
                 <DeleteSale open={deleteSaleModal} toggleDeleteSaleModal={toggleDeleteSaleModal} saleId={saleID} fetchSale={fetchSale} pagerSetting={pagerSetting} />
             </div>
             <div className="marginTop-20">

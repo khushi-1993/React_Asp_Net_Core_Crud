@@ -22,7 +22,7 @@ namespace React_Asp_Net_Core_Crud.DAL.Repository
             _dbContext = dbContext;
         }
 
-        public IEnumerable<Sales> GetAll(int offset, int limit, string sortOrder)
+        public IEnumerable<SalesViewModel> GetAll(int offset, int limit, string sortOrder)
         {
             try
             {
@@ -30,28 +30,42 @@ namespace React_Asp_Net_Core_Crud.DAL.Repository
                 limit = limit < 0 ? 0 : limit;
 
 
-                var pageSales = _dbContext.Sales.Include(p => p.ProductId).Include(c => c.CustomerId).Include(s => s.StoreId);
+                var pageSales = _dbContext.Sales.
+                    Include(p => p.Product).
+                    Include(c => c.Customer).
+                    Include(s => s.Store).
+                    Select(x => new SalesViewModel
+                    {
+                        Id = x.Id,
+                        CustomerId = x.CustomerId,
+                        ProductId = x.ProductId,
+                        StoreId = x.StoreId,
+                        CustomerName = x.Customer.Name,
+                        ProductName = x.Product.Name,
+                        StoreName = x.Store.Name,
+                        DateSold =  x.DateSold
+                    });
 
 
                 switch (sortOrder)
                 {
                     case "Product_Name":
-                        pageSales = pageSales.OrderBy(u => u.Product.Name);
+                        pageSales = pageSales.OrderBy(u => u.ProductName);
                         break;
                     case "Product_Name_desc":
-                        pageSales = pageSales.OrderByDescending(u => u.Product.Name);
+                        pageSales = pageSales.OrderByDescending(u => u.ProductName);
                         break;
                     case "Customer_Name":
-                        pageSales = pageSales.OrderBy(u => u.Customer.Name);
+                        pageSales = pageSales.OrderBy(u => u.CustomerName);
                         break;
                     case "Customer_Name_desc":
-                        pageSales = pageSales.OrderByDescending(u => u.Customer.Name);
+                        pageSales = pageSales.OrderByDescending(u => u.CustomerName);
                         break;
                     case "Store_Name":
-                        pageSales = pageSales.OrderBy(u => u.Store.Name);
+                        pageSales = pageSales.OrderBy(u => u.StoreName);
                         break;
                     case "Store_Name_desc":
-                        pageSales = pageSales.OrderByDescending(u => u.Store.Name);
+                        pageSales = pageSales.OrderByDescending(u => u.StoreName);
                         break;
                     case "DateSold":
                         pageSales = pageSales.OrderBy(u => u.DateSold);
@@ -64,9 +78,9 @@ namespace React_Asp_Net_Core_Crud.DAL.Repository
                         break;
                 }
 
-                pageSales = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Sales, int>)pageSales.Skip(offset).Take(limit);
+                pageSales = pageSales.Skip(offset).Take(limit);
 
-                return pageSales.ToList();
+                return (IEnumerable<SalesViewModel>)pageSales.ToList();
             }
             catch (Exception)
             {
