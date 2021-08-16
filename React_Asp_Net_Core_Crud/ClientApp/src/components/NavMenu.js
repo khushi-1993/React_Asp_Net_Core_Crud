@@ -22,6 +22,9 @@ export class NavMenu extends Component {
     return (
         <Menu inverted>
           <Menu.Item
+            name='React'
+          />
+          <Menu.Item
             as={NavLink} to='/customers'
             name='customers'
             active={activeItem === 'customers'}

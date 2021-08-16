@@ -17,7 +17,7 @@ export function CustomersList() {
 
   const fetchCustomer = (page, pageSize, sortOrder) => {
     const offset = (page - 1) * pageSize;
-    let url = "api/customer/get?" + "offset=" + offset + "&limit=" + pageSize + "&sortOrder=" + sortOrder;
+      let url = "api/customer/get?" + "offset=" + offset + "&limit=" + pageSize + "&sortOrder=" + sortOrder;
     axios.get(url)
       .then(res => {
         setCustomers(res.data.data);

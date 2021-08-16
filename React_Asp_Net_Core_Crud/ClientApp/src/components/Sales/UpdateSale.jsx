@@ -101,7 +101,7 @@ export function UpdateSale(props) {
                 options={customerOption}
                 placeholder='---Select Customer---'
                 defaultValue={sales !== undefined ? sales.CustomerId : null}
-                onChange={(e) => sales.CustomerId = e.target.value}
+                onChange={(e,data) => sales.CustomerId = data.value}
               />
             </Form.Field>
             <Form.Field>
@@ -112,7 +112,7 @@ export function UpdateSale(props) {
                 options={productOption}
                 placeholder='---Select Product---'
                 defaultValue={sales !== undefined ? sales.ProductId : null}
-               onChange={(e) => sales.ProductId = e.target.value}
+               onChange={(e,data) => sales.ProductId = data.value}
               />
             </Form.Field>
             <Form.Field>
@@ -123,7 +123,7 @@ export function UpdateSale(props) {
                 options={storeOption}
                 placeholder='---Select Store---'
                 defaultValue={sales !== undefined ? sales.StoreId : null}
-                onChange={(e) => sales.StoreId = e.target.value}
+                onChange={(e,data) => sales.StoreId = data.value}
               />
             </Form.Field>
           </Form>
