@@ -10,10 +10,15 @@ export function DeleteProduct(props) {
   const handleDeleteProduct = (e) => {
     e.preventDefault();
     axios.delete("api/product/delete/" + productId)
-      .then(res => {
-        fetchProduct(pagerSetting.page, pagerSetting.pageSize, pagerSetting.sortOrder);
-        toggleDeleteProductModal(false);
-        toast.success('Product Deleted Successfully');
+        .then(res => {
+            if (res.data.StatusCode == 400) {
+                toast.warning('This product is used in sale.');
+            }
+            else {
+                fetchProduct(pagerSetting.page, pagerSetting.pageSize, pagerSetting.sortOrder);
+                toggleDeleteProductModal(false);
+                toast.success('Product Deleted Successfully');
+            }
       })
       .catch(err => {
         console.log(err);

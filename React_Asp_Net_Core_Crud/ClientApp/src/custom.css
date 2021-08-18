@@ -21,6 +21,9 @@
     float: right;
 }
 
+.red{
+    color:red;
+}
 .ui.pagination.menu
 {
     background-color: #1a69a4;

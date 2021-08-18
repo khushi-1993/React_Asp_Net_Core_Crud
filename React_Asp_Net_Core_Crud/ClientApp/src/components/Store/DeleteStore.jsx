@@ -10,10 +10,15 @@ export function DeleteStore(props) {
   const handleDeleteStore = (e) => {
     e.preventDefault();
     axios.delete("api/store/delete/" + storeId)
-      .then(res => {
-        fetchStore(pagerSetting.page, pagerSetting.pageSize, pagerSetting.sortOrder);
-        toggleDeleteStoreModal(false);
-        toast.success('Store Deleted Successfully');
+        .then(res => {
+            if (res.data.StatusCode == 400) {
+                toast.warning('This store is used in sale.');
+            }
+            else {
+                fetchStore(pagerSetting.page, pagerSetting.pageSize, pagerSetting.sortOrder);
+                toggleDeleteStoreModal(false);
+                toast.success('Store Deleted Successfully');
+            }
       })
       .catch(err => {
         console.log(err);

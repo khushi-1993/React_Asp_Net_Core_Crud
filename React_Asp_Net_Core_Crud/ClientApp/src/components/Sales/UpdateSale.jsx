@@ -86,7 +86,7 @@ export function UpdateSale(props) {
         <Modal.Content >
           <Form>
           <Form.Field>
-              <label>Date Sold</label>
+                          <label>Date Sold<span className="red"> *</span></label>
            <input type="date" name="DateSold" 
           // defaultValue="2021-08-16"
            defaultValue={sales !== undefined ? dateFormat(sales.DateSold, "yyyy-mm-dd") : new Date().toISOString().slice(0, 10)} max={new Date().toISOString().slice(0, 10)} 
@@ -94,7 +94,7 @@ export function UpdateSale(props) {
            />
             </Form.Field>
             <Form.Field>
-              <label>Customer</label>
+                          <label>Customer<span className="red"> *</span></label>
               <Dropdown
                 selection
                 name="CustomerId"
@@ -105,7 +105,7 @@ export function UpdateSale(props) {
               />
             </Form.Field>
             <Form.Field>
-              <label>Product</label>
+                          <label>Product<span className="red"> *</span></label>
               <Dropdown
                 selection
                 name="ProductId"
@@ -116,7 +116,7 @@ export function UpdateSale(props) {
               />
             </Form.Field>
             <Form.Field>
-              <label>Store</label>
+                          <label>Store<span className="red"> *</span></label>
               <Dropdown
                 selection
                 name="StoreId"

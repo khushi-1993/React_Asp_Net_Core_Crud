@@ -10,10 +10,10 @@ export function DeleteSale(props) {
   const handleDeleteSale = (e) => {
     e.preventDefault();
     axios.delete("api/sales/delete/" + saleId)
-      .then(res => {
-        fetchSale(pagerSetting.page, pagerSetting.pageSize, pagerSetting.sortOrder);
-        toggleDeleteSaleModal(false);
-        toast.success('Sale Deleted Successfully');
+        .then(res => {
+                fetchSale(pagerSetting.page, pagerSetting.pageSize, pagerSetting.sortOrder);
+                toggleDeleteSaleModal(false);
+                toast.success('Sale Deleted Successfully');
       })
       .catch(err => {
         console.log(err);

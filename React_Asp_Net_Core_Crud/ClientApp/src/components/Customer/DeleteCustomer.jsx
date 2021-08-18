@@ -9,11 +9,17 @@ export function DeleteCustomer(props) {
 
   const handleDeleteCustomer = (e) => {
     e.preventDefault();
-    axios.delete("api/customer/get/" + customerId)
-      .then(res => {
-        fetchCustomer(pagerSetting.page, pagerSetting.pageSize, pagerSetting.sortOrder);
-        toggleDeleteCustomerModal(false);
-        toast.success('Customer Deleted Successfully');
+    axios.delete("api/customer/delete/" + customerId)
+        .then(res => {
+            if (res.data.StatusCode == 400) {
+                toast.warning('This customer is used in sale.');
+            }
+            else {
+                fetchCustomer(pagerSetting.page, pagerSetting.pageSize, pagerSetting.sortOrder);
+                toggleDeleteCustomerModal(false);
+                toast.success('Customer Deleted Successfully');
+            }
+       
       })
       .catch(err => {
         console.log(err);

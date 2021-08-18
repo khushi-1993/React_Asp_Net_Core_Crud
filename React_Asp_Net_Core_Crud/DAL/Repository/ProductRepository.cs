@@ -133,7 +133,7 @@ namespace React_Asp_Net_Core_Crud.DAL.Repository
             }
             catch (Exception)
             {
-                throw;
+                return false;
             }
         }
 

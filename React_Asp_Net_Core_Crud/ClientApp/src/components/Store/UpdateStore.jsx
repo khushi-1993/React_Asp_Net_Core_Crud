@@ -34,11 +34,11 @@ export function UpdateStore(props) {
         <Modal.Content >
           <Form>
             <Form.Field>
-              <label>NAME</label>
+                          <label>NAME<span className="red"> *</span></label>
               <input placeholder='Please Enter Name' name="Name" onChange={(e) => store.Name = e.target.value} defaultValue={store !== undefined ? store.Name : ""} />
             </Form.Field>
             <Form.Field>
-              <label>ADDRESS</label>
+                          <label>ADDRESS<span className="red"> *</span></label>
               <input placeholder='Please Enter Address' name="Address" onChange={(e) => store.Address = e.target.value} defaultValue={store !== undefined ? store.Address : ""} />
             </Form.Field>
           </Form>

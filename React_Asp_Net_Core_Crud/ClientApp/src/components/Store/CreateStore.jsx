@@ -43,11 +43,11 @@ export function CreateStore(props) {
         <Modal.Content >
           <Form>
             <Form.Field>
-              <label>NAME</label>
+                          <label>NAME<span className="red"> *</span></label>
               <input placeholder='Please Enter Name' name="Name" onChange={handleChange} />
             </Form.Field>
             <Form.Field>
-              <label>ADDRESS</label>
+                          <label>ADDRESS<span className="red"> *</span></label>
               <input placeholder='Please Enter Address' name="Address" onChange={handleChange} />
             </Form.Field>
           </Form>

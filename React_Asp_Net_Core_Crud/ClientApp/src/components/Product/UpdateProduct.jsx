@@ -34,11 +34,11 @@ export function UpdateProduct(props) {
         <Modal.Content >
           <Form>
             <Form.Field>
-              <label>NAME</label>
+                          <label>NAME<span className="red"> *</span></label>
               <input placeholder='Please Enter Name' name="Name" onChange={(e) => product.Name = e.target.value} defaultValue={product !== undefined ? product.Name : ""} />
             </Form.Field>
             <Form.Field>
-              <label>PRICE</label>
+                          <label>PRICE<span className="red"> *</span></label>
               <input type="number" placeholder='Please Enter Price' name="Price" onChange={(e) => product.Price = e.target.value} defaultValue={product !== undefined ? product.Price : ""} />
             </Form.Field>
           </Form>

@@ -18,7 +18,7 @@ export class NavMenu extends Component {
 
   render() {
     const { activeItem } = this.state
-
+      //const { activeItem } = 'customers'
     return (
         <Menu inverted>
           <Menu.Item

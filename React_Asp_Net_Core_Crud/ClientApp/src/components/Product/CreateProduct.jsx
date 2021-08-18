@@ -43,11 +43,11 @@ export function CreateProduct(props) {
         <Modal.Content >
           <Form>
             <Form.Field>
-              <label>NAME</label>
+                          <label>NAME<span className="red"> *</span></label>
               <input placeholder='Please Enter Name' name="Name" onChange={handleChange} />
             </Form.Field>
             <Form.Field>
-              <label>PRICE</label>
+                          <label>PRICE<span className="red"> *</span></label>
               <input type="number" placeholder='Please Enter Price' name="Price" onChange={handleChange} />
             </Form.Field>
           </Form>

@@ -12,7 +12,7 @@ export function CustomersList() {
   const [state, setState] = useState({ data: [], page: 1, pageSize: 10, maxPages: 5, totalRecord: 0, sortOrder: "" });
 
   useEffect((e) => {
-    fetchCustomer(state.page, state.pageSize, "", "");
+    fetchCustomer(state.page, state.pageSize, "");
   }, []);
 
   const fetchCustomer = (page, pageSize, sortOrder) => {
